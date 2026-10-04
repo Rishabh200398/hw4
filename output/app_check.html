@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Campus Customs — Live App Check</title>
+    <style>
+      :root {
+        --navy: #00366b;
+        --accent: #f04f36;
+        --ink: #1d1d1d;
+        --muted: #5c6470;
+        --border: #e2e4e8;
+        --bg: #f4f6f9;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      header {
+        background: linear-gradient(120deg, #002448, var(--navy) 70%, #0a4f94);
+        color: #fff;
+        padding: 40px 24px;
+      }
+      .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+      header h1 { margin: 0 0 6px; font-size: 1.9rem; }
+      header p { margin: 0; opacity: 0.9; }
+      main { padding: 32px 0 56px; }
+      .intro { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin: 0 24px 28px; max-width: 960px; }
+      .intro :first-child { margin-top: 0; }
+      .intro :last-child { margin-bottom: 0; }
+      .check {
+        background: #fff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+        margin: 0 24px 28px; box-shadow: 0 4px 16px rgba(0, 36, 72, 0.06);
+      }
+      .check-head { padding: 18px 24px 0; }
+      .badge {
+        display: inline-block; background: var(--navy); color: #fff; font-weight: 700; font-size: 0.78rem;
+        padding: 3px 10px; border-radius: 999px; letter-spacing: 0.04em; text-transform: uppercase;
+      }
+      .check h2 { margin: 10px 0 4px; font-size: 1.25rem; color: var(--navy); }
+      .check .caption { margin: 0 0 16px; color: var(--muted); }
+      .check .caption strong { color: var(--ink); }
+      .shot { border-top: 1px solid var(--border); background: #0b1b2e; }
+      .shot img { display: block; width: 100%; height: auto; }
+      .verify { padding: 14px 24px; font-size: 0.92rem; }
+      .verify .tag { color: var(--accent); font-weight: 700; }
+      code { background: #eef1f5; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
+      footer { color: var(--muted); font-size: 0.85rem; text-align: center; padding: 10px 24px 40px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap" style="padding:0">
+        <h1>Campus Customs — Live App Check</h1>
+        <p>Problem 11 · Screenshots captured from the running app (frontend on <code>:5173</code>, FastAPI backend on <code>:8000</code>)</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="intro">
+        <p>
+          This page documents three checks run against the live Campus Customs site, each with a
+          screenshot and a short note on what it proves. The data (prices and stock) comes from the
+          local SQLite database <code>campus_customs.db</code>; the chatbot is a PydanticAI agent that
+          reads that database through tools, so every price and stock figure it states is real.
+        </p>
+      </div>
+
+      <!-- Check 1 -->
+      <section class="check">
+        <div class="check-head">
+          <span class="badge">Check 1 · Chatbot</span>
+          <h2>Honest stock &amp; price from the database</h2>
+          <p class="caption">
+            Handsome Dan (the chat assistant) is asked whether the <strong>Basic Hoodie Big Yale</strong>
+            is available in <strong>Medium</strong> and its price. He answers
+            <strong>“available in Medium, with 5 in stock. It’s $68 USD.”</strong> — read live from the
+            <code>inventory</code> and <code>catalogue</code> tables (M = 5 units, price $68), not guessed.
+          </p>
+        </div>
+        <div class="shot"><img src="app_check_images/1_chat_stock.png" alt="Chat answering stock and price for the Basic Hoodie Big Yale" /></div>
+        <div class="verify"><span class="tag">Reproduce:</span> open the chat (bottom-right) and ask “Is the Basic Hoodie Big Yale available in medium, and what is the price?”</div>
+      </section>
+
+      <!-- Check 2 -->
+      <section class="check">
+        <div class="check-head">
+          <span class="badge">Check 2 · Dynamic search</span>
+          <h2>Category question → product cards appear on the page</h2>
+          <p class="caption">
+            Asking <strong>“what hoodies do you have?”</strong> in the chat makes the agent search the
+            catalogue and the website renders the matching items as <strong>product cards</strong> under
+            a “From your chat — Matches for …” band. The cards are clickable and each opens that
+            product’s detail page.
+          </p>
+        </div>
+        <div class="shot"><img src="app_check_images/2_search_cards.png" alt="Hoodie product cards appearing on the page after a category question in chat" /></div>
+        <div class="verify"><span class="tag">Reproduce:</span> open the chat and ask “what hoodies do you have?” — matching cards appear on the page.</div>
+      </section>
+
+      <!-- Check 3 -->
+      <section class="check">
+        <div class="check-head">
+          <span class="badge">Check 3 · Usability (Problem 9)</span>
+          <h2>Filter the products by type and price</h2>
+          <p class="caption">
+            On the Products page, the <strong>Product type</strong> and <strong>Price</strong> dropdowns
+            are checkbox filters. Here “Hoodies” is ticked; clicking <strong>Apply filters</strong> narrows
+            the 102-item grid to just hoodies. This is one of the Problem 9 usability improvements (it
+            combines with the search box, and a Clear button resets it).
+          </p>
+        </div>
+        <div class="shot"><img src="app_check_images/3_filters.png" alt="Products page with the Product type filter dropdown open and Hoodies checked" /></div>
+        <div class="verify"><span class="tag">Reproduce:</span> go to Products → open “Product type” → check Hoodies → Apply filters (102 → 27 items).</div>
+      </section>
+
+      <footer>Campus Customs — class project. Screenshots are from a live run; the store is not the official Yale Bulldog Blue site.</footer>
+    </main>
+  </body>
+</html>

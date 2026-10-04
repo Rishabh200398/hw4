@@ -1,0 +1,27 @@
+# Data — never commit the database or product images
+data/
+*.db
+*.sqlite
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+dist/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Editor/preview config
+.claude/
