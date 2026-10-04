@@ -190,3 +190,23 @@ The prompts I typed into the vibe coder while working on this assignment, one se
 
 **Follow-up prompt (mid-task):**
 > Finish output/harness.md with the following fields: Model fields in models.py and why you chose them; Tools and abilities; Safety rules; Specs (loop limits, result caps, models, how to run front + back).
+
+## Problem 13: Push to GitHub
+
+**Prompt:**
+> Onto problem 13. I want to put this in github. I have a github account. Help me push this into github.
+
+**Follow-up prompt:**
+> Where are you gonna be committing? Because I don't think I have given you access to github yet. Let me know before you do anything.
+
+**Follow-up prompt:**
+> (installed the GitHub CLI and logged in) Yes I have logged in.
+
+**What happened:** Prepared the repo to match the expected hw4 layout (root `requirements.txt`, README run steps, `.claude/` ignored) and made a local-only commit first — confirmed no `.env`, database, product images, `node_modules`, or `.venv` were staged. Installed the GitHub CLI to `~/.local/bin` (no admin password). The user ran `gh auth login` themselves (credentials stayed with them). Then created a public repo and pushed:
+
+```
+gh repo create hw4 --public --source=. --remote=origin --push
+```
+
+Repo URL (submitted on Canvas): https://github.com/Rishabh200398/hw4
+Verified public, remote main matches local, and no secrets on the remote.
